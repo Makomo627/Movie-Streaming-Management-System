@@ -16,9 +16,10 @@ public class Category {
     }
 
     public static Category fromFileString(String line) {
+        if (line == null || line.trim().isEmpty()) return null;
         String[] p = line.split(",");
         if (p.length < 3) return null;
-        return new Category(p[0], p[1], p[2]);
+        return new Category(p[0].trim(), p[1].trim(), p[2].trim());
     }
 
     @Override
@@ -26,12 +27,24 @@ public class Category {
         return String.format("[%s] %s - %s", id, name, description);
     }
 
-    public String getId(){ 
+    public String getId() { 
         return id; 
     }
 
-    public String getName(){ 
+    public String getName() { 
         return name; 
     }
-    
+
+    // Thêm setter này để hết lỗi ở CategoryController
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }
