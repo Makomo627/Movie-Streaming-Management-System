@@ -1,0 +1,8 @@
+M01,Jujutsu Kaisen 0: The Movie,Sunghoo Park,Megumi Ogata,C01,2021,7.8,320,6300
+M02,Weathering With You,Makoto Shinkai,Kotaro Daigo,C02,2019,7.5,210,6720
+M03,The Boy and the Heron,Hayao Miyazaki,Soma Santoki,C03,2023,7.6,190,7440
+M04,The Tunnel to Summer the Exit of Goodbyes,Tomohisa Taguchi,Ouji Suzuka,C04,2022,7.2,140,4980
+M05,COLORFUL STAGE! The Movie: A Miku Who Cant Sing,Hiroyuki Hata,Saki Fujita,C05,2025,7.0,95,5400
+M06,Shin Godzilla,Hideaki Anno,Hiroki Hasegawa,C06,2016,6.8,410,7200
+M07,Avatar: Fire and Ash,James Cameron,Sam Worthington,C08,2025,8.2,650,11400
+M08,Pacific Rim,Guillermo del Toro,Charlie Hunnam,C07,2013,6.9,530,7860

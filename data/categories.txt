@@ -1,0 +1,8 @@
+C01,Supernatural,Spirits ghosts and paranormal action films
+C02,Romance,Romantic and heart-warming animated stories
+C03,Fantasy,Magical worlds and surreal adventures
+C04,Sci-Fi,Futuristic technology space and time travel
+C05,Music,Musical animation and idol performances
+C06,Kaiju,Giant monster attacks and disaster movies
+C07,Action,High-octane action and mecha battles
+C08,Adventure,Epic world exploration and alien worlds
