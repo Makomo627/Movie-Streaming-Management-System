@@ -34,8 +34,7 @@ public class Category {
     public String getName() { 
         return name; 
     }
-
-    // Thêm setter này để hết lỗi ở CategoryController
+    
     public void setName(String name) {
         this.name = name;
     }
