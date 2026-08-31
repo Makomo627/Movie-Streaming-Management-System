@@ -1,13 +1,16 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.List;
+import util.MyLinkedList;
+import util.MyQueue;
+import util.MyStack;
 
 public class User {
     private String id;
     private String username;
-    private List<String> watchlistIds = new ArrayList<>();
-    private List<String> favoriteIds = new ArrayList<>();
+    private MyLinkedList<String> watchlistIds = new MyLinkedList<>();
+    private MyLinkedList<String> favoriteIds = new MyLinkedList<>();
+    private MyQueue<String> playbackQueue = new MyQueue<>();
+    private MyStack<String> recentActionStack = new MyStack<>();
 
     public User(String id, String username) {
         this.id = id;
@@ -22,11 +25,19 @@ public class User {
         return username; 
     }
 
-    public List<String> getWatchlistIds() { 
+    public MyLinkedList<String> getWatchlistIds() { 
         return watchlistIds; 
     }
 
-    public List<String> getFavoriteIds() { 
+    public MyLinkedList<String> getFavoriteIds() { 
         return favoriteIds; 
+    }
+
+    public MyQueue<String> getPlaybackQueue() {
+        return playbackQueue;
+    }
+
+    public MyStack<String> getRecentActionStack() {
+        return recentActionStack;
     }
 }
