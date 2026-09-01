@@ -2,15 +2,14 @@ package controller;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 import model.User;
 import model.WatchHistoryItem;
 import storage.FileStorage;
+import util.MyLinkedList;
 
 public class UserController {
-    private List<User> users;
-    private List<WatchHistoryItem> historyList;
+    private MyLinkedList<User> users;
+    private MyLinkedList<WatchHistoryItem> historyList;
     private User currentUser;
 
     public UserController() {
@@ -74,6 +73,7 @@ public class UserController {
         if (currentUser == null || movieId == null) return false;
         if (!currentUser.getWatchlistIds().contains(movieId)) {
             currentUser.getWatchlistIds().add(movieId);
+            currentUser.getRecentActionStack().push("Added movie " + movieId + " to Watchlist");
             FileStorage.saveUsers(users);
             return true;
         }
@@ -84,10 +84,34 @@ public class UserController {
         if (currentUser == null || movieId == null) return false;
         if (!currentUser.getFavoriteIds().contains(movieId)) {
             currentUser.getFavoriteIds().add(movieId);
+            currentUser.getRecentActionStack().push("Added movie " + movieId + " to Favorites");
             FileStorage.saveUsers(users);
             return true;
         }
         return false;
+    }
+
+    public boolean addToPlaybackQueue(String movieId) {
+        if (currentUser == null || movieId == null) return false;
+        currentUser.getPlaybackQueue().enqueue(movieId);
+        currentUser.getRecentActionStack().push("Enqueued movie " + movieId + " to Playback Queue");
+        return true;
+    }
+
+    public String playNextInQueue() {
+        if (currentUser == null || currentUser.getPlaybackQueue().isEmpty()) {
+            return null;
+        }
+        String movieId = currentUser.getPlaybackQueue().dequeue();
+        currentUser.getRecentActionStack().push("Played movie " + movieId + " from Playback Queue");
+        return movieId;
+    }
+
+    public String popLastAction() {
+        if (currentUser == null || currentUser.getRecentActionStack().isEmpty()) {
+            return null;
+        }
+        return currentUser.getRecentActionStack().pop();
     }
 
     public boolean recordWatchHistory(String movieId, int duration) {
@@ -99,8 +123,8 @@ public class UserController {
         return true;
     }
 
-    public List<WatchHistoryItem> getCurrentUserHistory() {
-        List<WatchHistoryItem> userHistory = new ArrayList<>();
+    public MyLinkedList<WatchHistoryItem> getCurrentUserHistory() {
+        MyLinkedList<WatchHistoryItem> userHistory = new MyLinkedList<>();
         if (currentUser == null) return userHistory;
 
         for (WatchHistoryItem item : historyList) {

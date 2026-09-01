@@ -1,18 +1,17 @@
 package controller;
 
-import java.util.ArrayList;
-import java.util.List;
 import model.Category;
 import storage.FileStorage;
+import util.MyLinkedList;
 
 public class CategoryController {
-    private List<Category> categories;
+    private MyLinkedList<Category> categories;
 
     public CategoryController() {
         this.categories = FileStorage.loadCategories();
     }
 
-    public List<Category> getAllCategories() {
+    public MyLinkedList<Category> getAllCategories() {
         return categories;
     }
 
@@ -28,7 +27,7 @@ public class CategoryController {
 
     public boolean addCategory(Category category) {
         if (category == null || findById(category.getId()) != null) {
-            return false; // Trùng ID hoặc dữ liệu rỗng
+            return false;
         }
         categories.add(category);
         FileStorage.saveCategories(categories);

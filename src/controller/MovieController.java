@@ -1,18 +1,17 @@
 package controller;
 
-import java.util.ArrayList;
-import java.util.List;
 import model.Movie;
 import storage.FileStorage;
+import util.MyLinkedList;
 
 public class MovieController {
-    private List<Movie> movies;
+    private MyLinkedList<Movie> movies;
 
     public MovieController() {
         this.movies = FileStorage.loadMovies();
     }
 
-    public List<Movie> getAllMovies() {
+    public MyLinkedList<Movie> getAllMovies() {
         return movies;
     }
 
@@ -45,8 +44,8 @@ public class MovieController {
         return false;
     }
 
-    public List<Movie> searchByTitle(String keyword) {
-        List<Movie> results = new ArrayList<>();
+    public MyLinkedList<Movie> searchByTitle(String keyword) {
+        MyLinkedList<Movie> results = new MyLinkedList<>();
         if (keyword == null || keyword.trim().isEmpty()) {
             return results;
         }
@@ -59,8 +58,8 @@ public class MovieController {
         return results;
     }
 
-    public List<Movie> filterByGenre(String genre) {
-        List<Movie> results = new ArrayList<>();
+    public MyLinkedList<Movie> filterByGenre(String genre) {
+        MyLinkedList<Movie> results = new MyLinkedList<>();
         if (genre == null) return results;
         for (Movie m : movies) {
             if (m.getGenre() != null && m.getGenre().equalsIgnoreCase(genre.trim())) {
