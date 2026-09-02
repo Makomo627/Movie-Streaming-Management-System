@@ -1,9 +1,9 @@
 package view;
 
 import controller.CategoryController;
-import java.util.List;
 import java.util.Scanner;
 import model.Category;
+import util.MyLinkedList;
 
 public class CategoryView {
 
@@ -40,7 +40,7 @@ public class CategoryView {
     }
 
     public void showAllCategories() {
-        List<Category> list = categoryController.getAllCategories();
+        MyLinkedList<Category> list = categoryController.getAllCategories();
         if (list.isEmpty()) {
             System.out.println("No categories found.");
             return;

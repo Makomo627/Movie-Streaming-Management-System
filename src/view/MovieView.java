@@ -2,9 +2,9 @@ package view;
 
 import controller.MovieController;
 import controller.UserController;
-import java.util.List;
 import java.util.Scanner;
 import model.Movie;
+import util.MyLinkedList;
 
 public class MovieView {
 
@@ -26,7 +26,9 @@ public class MovieView {
             System.out.println("3. Filter Movies by Genre");
             System.out.println("4. Add Movie to Watchlist");
             System.out.println("5. Add Movie to Favorites");
-            System.out.println("6. Watch Movie (Record History)");
+            System.out.println("6. Add Movie to Playback Queue");
+            System.out.println("7. Play Next Movie in Queue");
+            System.out.println("8. Watch Movie directly (Record History)");
             System.out.println("0. Back to Main Menu");
             System.out.print("Select an option: ");
 
@@ -48,6 +50,12 @@ public class MovieView {
                     addToFavorites();
                     break;
                 case "6":
+                    addToPlaybackQueue();
+                    break;
+                case "7":
+                    playNextInQueue();
+                    break;
+                case "8":
                     watchMovie();
                     break;
                 case "0":
@@ -59,7 +67,7 @@ public class MovieView {
     }
 
     public void showAllMovies() {
-        List<Movie> movies = movieController.getAllMovies();
+        MyLinkedList<Movie> movies = movieController.getAllMovies();
         if (movies.isEmpty()) {
             System.out.println("No movies found in the system.");
             return;
@@ -73,7 +81,7 @@ public class MovieView {
     private void searchMovie() {
         System.out.print("Enter movie title keyword: ");
         String keyword = scanner.nextLine();
-        List<Movie> results = movieController.searchByTitle(keyword);
+        MyLinkedList<Movie> results = movieController.searchByTitle(keyword);
         if (results.isEmpty()) {
             System.out.println("No matching movies found.");
         } else {
@@ -87,7 +95,7 @@ public class MovieView {
     private void filterMovieByGenre() {
         System.out.print("Enter Genre name: ");
         String genre = scanner.nextLine();
-        List<Movie> results = movieController.filterByGenre(genre);
+        MyLinkedList<Movie> results = movieController.filterByGenre(genre);
         if (results.isEmpty()) {
             System.out.println("No movies found for this genre.");
         } else {
@@ -131,6 +139,39 @@ public class MovieView {
             System.out.println("Movie added to Favorites successfully!");
         } else {
             System.out.println("Movie is already in your Favorites!");
+        }
+    }
+
+    private void addToPlaybackQueue() {
+        if (!userController.isLoggedIn()) {
+            System.out.println("Please log in first!");
+            return;
+        }
+        System.out.print("Enter Movie ID to enqueue: ");
+        String movieId = scanner.nextLine().trim();
+        if (movieController.findById(movieId) == null) {
+            System.out.println("Movie ID does not exist!");
+            return;
+        }
+        userController.addToPlaybackQueue(movieId);
+        System.out.println("Movie added to Playback Queue!");
+    }
+
+    private void playNextInQueue() {
+        if (!userController.isLoggedIn()) {
+            System.out.println("Please log in first!");
+            return;
+        }
+        String movieId = userController.playNextInQueue();
+        if (movieId == null) {
+            System.out.println("Playback queue is empty!");
+            return;
+        }
+        Movie movie = movieController.findById(movieId);
+        if (movie != null) {
+            movie.incrementViews();
+            userController.recordWatchHistory(movieId, 0);
+            System.out.println("Now playing from Queue: " + movie.getTitle());
         }
     }
 
