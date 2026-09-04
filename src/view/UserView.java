@@ -1,10 +1,10 @@
 package view;
 
 import controller.UserController;
-import java.util.List;
 import java.util.Scanner;
 import model.User;
 import model.WatchHistoryItem;
+import util.MyLinkedList;
 
 public class UserView {
 
@@ -25,7 +25,9 @@ public class UserView {
                 System.out.println("1. View My Watchlist");
                 System.out.println("2. View My Favorites");
                 System.out.println("3. View Watch History");
-                System.out.println("4. Log Out");
+                System.out.println("4. View Playback Queue Size");
+                System.out.println("5. Undo/View Recent Action");
+                System.out.println("6. Log Out");
             } else {
                 System.out.println("1. Register");
                 System.out.println("2. Log In");
@@ -46,6 +48,12 @@ public class UserView {
                         showHistory();
                         break;
                     case "4":
+                        showQueueSize();
+                        break;
+                    case "5":
+                        undoRecentAction();
+                        break;
+                    case "6":
                         userController.logout();
                         System.out.println("Logged out successfully!");
                         break;
@@ -120,7 +128,7 @@ public class UserView {
     }
 
     private void showHistory() {
-        List<WatchHistoryItem> history = userController.getCurrentUserHistory();
+        MyLinkedList<WatchHistoryItem> history = userController.getCurrentUserHistory();
         System.out.println("\n--- WATCH HISTORY ---");
         if (history.isEmpty()) {
             System.out.println("No watch history found.");
@@ -130,6 +138,20 @@ public class UserView {
                         + " | Watched At: " + item.getWatchedAt()
                         + " | Stopped At: " + item.getStoppedAtSeconds() + "s");
             }
+        }
+    }
+
+    private void showQueueSize() {
+        User u = userController.getCurrentUser();
+        System.out.println("Current movies in Playback Queue: " + u.getPlaybackQueue().size());
+    }
+
+    private void undoRecentAction() {
+        String action = userController.popLastAction();
+        if (action != null) {
+            System.out.println("[STACK POP] Popped last action: " + action);
+        } else {
+            System.out.println("No recent action in stack.");
         }
     }
 }
