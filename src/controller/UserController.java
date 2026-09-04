@@ -18,6 +18,25 @@ public class UserController {
         this.currentUser = null;
     }
 
+    public boolean isValidUserId(String id) {
+        if (id == null) return false;
+        return id.matches("^U\\d{3}$");
+    }
+
+    public boolean register(String id, String username) {
+        if (!isValidUserId(id)) {
+            return false;
+        }
+
+        if (findById(id) != null || findByUsername(username) != null) {
+            return false;
+        }
+        User newUser = new User(id, username);
+        users.add(newUser);
+        FileStorage.saveUsers(users);
+        return true;
+    }
+
     public User getCurrentUser() {
         return currentUser;
     }
@@ -44,16 +63,6 @@ public class UserController {
             }
         }
         return null;
-    }
-
-    public boolean register(String id, String username) {
-        if (findById(id) != null || findByUsername(username) != null) {
-            return false;
-        }
-        User newUser = new User(id, username);
-        users.add(newUser);
-        FileStorage.saveUsers(users);
-        return true;
     }
 
     public boolean login(String username) {

@@ -80,8 +80,14 @@ public class UserView {
     }
 
     private void registerUser() {
-        System.out.print("Enter User ID: ");
+        System.out.print("Enter User ID (format: UXXX, e.g., U001): ");
         String id = scanner.nextLine().trim();
+
+        if (!userController.isValidUserId(id)) {
+            System.out.println("Invalid User ID format! Must start with 'U' followed by 3 digits (e.g., U001, U005).");
+            return;
+        }
+
         System.out.print("Enter Username: ");
         String username = scanner.nextLine().trim();
 
